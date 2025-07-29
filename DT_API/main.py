@@ -1,16 +1,10 @@
-"""API for Mock Sensor Data Acquisition."""
-from random import uniform, choice
-
 from fastapi import FastAPI
+from DT_API.job_data import router as job_data_router
+from DT_API.scenario import router as scenario_router
+from DT_API.simulator import router as simulator_router
 
 app = FastAPI()
 
-@app.get("/acquire")
-def acquire_data():
-    """Generate mock data for sensors."""
-    return {
-        "temperature": round(uniform(15.0, 30.0), 2),
-        "humidity": round(uniform(30.0, 70.0), 2),
-        "pressure": round(uniform(0.9, 1.1), 2),
-        "sensor_status": choice(["active", "inactive", "error"])
-    }
+app.include_router(job_data_router)
+app.include_router(scenario_router)
+app.include_router(simulator_router)
